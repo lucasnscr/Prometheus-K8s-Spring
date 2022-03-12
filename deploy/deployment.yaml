@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: spring-boot-kubernetes-autoscaler
+  name: spring-boot-kubernetes-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-kubernetes-autoscaler
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: spring-boot-kubernetes-autoscaler
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+        - image: kubernetes-prometheu/kubernetes-prometheus:latest
+          name: spring-boot-kubernetes-autoscaler
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
